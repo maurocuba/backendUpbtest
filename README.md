@@ -3,7 +3,7 @@
 API REST para el inventario de la **Capsule Corp** del universo Dragon Ball: esferas del dragón, semillas del ermitaño, scouters, cápsulas Hoi-Poi y más.
 Basada en el proyecto `backendUpbtest`, hecha con **Express 5 + PostgreSQL** y publicada en **Render**.
 
-- API en producción: https://capsule-corp-api-mc.onrender.com
+- API en producción: https://capsule-corp-api-mc1.onrender.com
 - Frontend: https://github.com/maurocuba/capsule-corp-frontend
 
 ## Arquitectura
