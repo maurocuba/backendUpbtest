@@ -1,7 +1,7 @@
 {
   "name": "backendupb",
   "version": "1.0.0",
-  "description": "",
+  "description": "API de inventario de la Capsule Corp (Dragon Ball): Express 5 + PostgreSQL",
   "main": "src/app.js",
   "scripts": {
     "start": "node src/app.js",
@@ -9,7 +9,7 @@
     "db:init": "node src/db/init.js"
   },
   "keywords": [],
-  "author": "",
+  "author": "Mauro Cuba",
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {
@@ -20,5 +20,8 @@
   },
   "devDependencies": {
     "nodemon": "^3.1.14"
+  },
+  "engines": {
+    "node": ">=20"
   }
 }

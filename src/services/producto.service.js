@@ -22,6 +22,7 @@ const actualizar = async (id, datos) => {
     const actual = await obtenerPorId(id);
     return productoRepository.update(actual.id, {
         nombre: datos.nombre ?? actual.nombre,
+        categoria: datos.categoria ?? actual.categoria,
         precio: datos.precio ?? actual.precio,
         stock: datos.stock ?? actual.stock,
     });

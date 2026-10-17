@@ -4,7 +4,7 @@ const HttpError = require('../utils/http-error');
 const validarCampos = (body, { parcial }) => {
     const errores = [];
     const datos = {};
-    const { nombre, precio, stock } = body || {};
+    const { nombre, categoria, precio, stock } = body || {};
 
     if (nombre !== undefined) {
         if (typeof nombre !== 'string' || nombre.trim() === '') errores.push('"nombre" debe ser un texto no vacío');
@@ -12,6 +12,14 @@ const validarCampos = (body, { parcial }) => {
         else datos.nombre = nombre.trim();
     } else if (!parcial) {
         errores.push('"nombre" es obligatorio');
+    }
+
+    if (categoria !== undefined) {
+        if (typeof categoria !== 'string' || categoria.trim() === '') errores.push('"categoria" debe ser un texto no vacío');
+        else if (categoria.length > 50) errores.push('"categoria" no puede superar 50 caracteres');
+        else datos.categoria = categoria.trim();
+    } else if (!parcial) {
+        datos.categoria = 'General';
     }
 
     if (precio !== undefined) {
@@ -29,7 +37,7 @@ const validarCampos = (body, { parcial }) => {
     }
 
     if (parcial && Object.keys(datos).length === 0 && errores.length === 0) {
-        errores.push('Debes enviar al menos un campo: nombre, precio o stock');
+        errores.push('Debes enviar al menos un campo: nombre, categoria, precio o stock');
     }
 
     if (errores.length > 0) throw new HttpError(400, errores.join(', '));
@@ -46,6 +54,7 @@ const actualizarProductoDto = (body) => validarCampos(body, { parcial: true });
 const productoResponseDto = (producto) => ({
     id: producto.id,
     nombre: producto.nombre,
+    categoria: producto.categoria,
     precio: producto.precio,
     stock: producto.stock,
     createdAt: producto.createdAt,

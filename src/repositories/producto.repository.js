@@ -11,23 +11,23 @@ const findById = async (id) => {
     return Producto.fromRow(rows[0]);
 };
 
-const create = async ({ nombre, precio, stock }) => {
+const create = async ({ nombre, categoria, precio, stock }) => {
     const { rows } = await pool.query(
-        `INSERT INTO productos (nombre, precio, stock)
-         VALUES ($1, $2, $3)
+        `INSERT INTO productos (nombre, categoria, precio, stock)
+         VALUES ($1, $2, $3, $4)
          RETURNING *`,
-        [nombre, precio, stock]
+        [nombre, categoria, precio, stock]
     );
     return Producto.fromRow(rows[0]);
 };
 
-const update = async (id, { nombre, precio, stock }) => {
+const update = async (id, { nombre, categoria, precio, stock }) => {
     const { rows } = await pool.query(
         `UPDATE productos
-         SET nombre = $1, precio = $2, stock = $3
-         WHERE id = $4
+         SET nombre = $1, categoria = $2, precio = $3, stock = $4
+         WHERE id = $5
          RETURNING *`,
-        [nombre, precio, stock, id]
+        [nombre, categoria, precio, stock, id]
     );
     return Producto.fromRow(rows[0]);
 };

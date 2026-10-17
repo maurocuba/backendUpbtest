@@ -1,7 +1,8 @@
 class Producto {
-    constructor(id, nombre, precio, stock, createdAt) {
+    constructor(id, nombre, categoria, precio, stock, createdAt) {
         this.id = id;
         this.nombre = nombre;
+        this.categoria = categoria;
         this.precio = Number(precio);
         this.stock = Number(stock);
         this.createdAt = createdAt;
@@ -9,7 +10,7 @@ class Producto {
 
     static fromRow(row) {
         if (!row) return null;
-        return new Producto(row.id, row.nombre, row.precio, row.stock, row.created_at);
+        return new Producto(row.id, row.nombre, row.categoria, row.precio, row.stock, row.created_at);
     }
 }
 

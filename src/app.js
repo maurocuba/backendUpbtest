@@ -1,6 +1,8 @@
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
+const pool = require('./config/db');
+const { inicializarBD } = require('./db/init');
 const productoRoutes = require('./routes/producto.routes');
 
 const app = express();
@@ -9,7 +11,27 @@ app.use(cors());
 app.use(express.json());
 
 app.get('/', (req, res) => {
-    res.send('API backendUpb funcionando');
+    res.json({
+        mensaje: 'API Capsule Corp funcionando 🐉',
+        endpoints: [
+            'GET    /api/health',
+            'GET    /api/productos',
+            'GET    /api/productos/:id',
+            'POST   /api/productos',
+            'PUT    /api/productos/:id',
+            'DELETE /api/productos/:id',
+        ],
+    });
+});
+
+// Comprueba que Express responde y que la base de datos está accesible
+app.get('/api/health', async (req, res) => {
+    try {
+        await pool.query('SELECT 1');
+        res.json({ status: 'ok', db: 'conectada' });
+    } catch (err) {
+        res.status(503).json({ status: 'error', db: 'sin conexión' });
+    }
 });
 
 app.use('/api/productos', productoRoutes);
@@ -33,6 +55,14 @@ app.use((err, req, res, next) => {
 
 const port = process.env.PORT || 3000;
 
-app.listen(port, () => {
-    console.log(`Server is running on http://localhost:${port}`);
-});
+// Crea la tabla (y el inventario inicial) antes de aceptar peticiones
+inicializarBD()
+    .then(() => {
+        app.listen(port, () => {
+            console.log(`Server is running on http://localhost:${port}`);
+        });
+    })
+    .catch((err) => {
+        console.error('No se pudo inicializar la base de datos ❌', err.message);
+        process.exit(1);
+    });
