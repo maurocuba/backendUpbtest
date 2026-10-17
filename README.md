@@ -51,6 +51,15 @@ La tabla `productos` y el inventario inicial se crean automáticamente al arranc
 
 ## Despliegue en Render
 
-`render.yaml` es un Blueprint que crea el servicio web. Al aplicarlo (**New → Blueprint**), Render pide `DATABASE_URL`: pega la **Internal Database URL** de tu base PostgreSQL en Render (misma región). No hay credenciales en el repositorio.
+1. **New → Postgres** (plan Free). Cuando esté lista, copia su **Internal Database URL**.
+2. **New → Web Service** con este repositorio:
+   - Build Command: `npm install`
+   - Start Command: `npm start`
+   - Misma región que la base de datos
+3. En **Environment** agrega:
+   - `DATABASE_URL` = la Internal Database URL de la base
+   - `DB_SSL` = `false` (si usas la **External** URL, pon `true`)
+
+Render proporciona el puerto HTTP mediante `PORT`. La tabla `productos` se crea sola al arrancar. No publiques credenciales ni cadenas de conexión reales en el repositorio.
 
 > El plan gratuito de Render duerme el servicio tras ~15 min sin uso; la primera petición puede tardar hasta un minuto.
